@@ -31,7 +31,7 @@
             <!-- left column -->
             <div class="col-md-12 column">
 
-            <form class="form-horizontal" method="post" action="" autocomplete="off" role="form">
+            <form class="form-horizontal" method="post" action="" autocomplete="off" role="form" enctype="multipart/form-data">
             <!-- CSRF Token -->
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
@@ -155,7 +155,20 @@
                     {{ $errors->first('assigned_to', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
                 </div>
             </div>
+
+             <!-- File Uploads -->
+            <div class="form-group {{ $errors->has('file') ? ' has-error' : '' }}">
+                <label for="parent" class="col-md-2 control-label">@lang('admin/hardware/form.upload_files')
+                 </label>
+                <div class="col-md-7">
+                	<input class="col-md-6 form-control" type="file" name="file" id="file" />
+                    <p class="help-block">@lang('admin/hardware/form.help_upload')</p>
+                    {{ $errors->first('assigned_to', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
+                </div>
+            </div>
 			@endif
+
+
 
 			<!-- Requestable -->
 			<div class="form-group">

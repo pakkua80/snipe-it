@@ -4,6 +4,7 @@ use AdminController;
 use Input;
 use Lang;
 use Asset;
+use FileUpload;
 use Supplier;
 use Statuslabel;
 use User;
@@ -172,6 +173,8 @@ class AssetsController extends AdminController
         // get the POST data
         $new = Input::all();
 
+        $file = Input::file('file');
+
         // create a new model instance
         $asset = new Asset();
 
@@ -225,8 +228,44 @@ class AssetsController extends AdminController
 
             // Was the asset created?
             if($asset->save()) {
+				$assetid = $asset->id;
+
+				if ($file) {
+
+					// Make the directory if it doesn't exist
+					if (!file_exists(storage_path().'/uploads/assets/asset-'.$assetid)) {
+						mkdir(storage_path().'/uploads/assets/asset-'.$assetid, 0755, true);
+					}
+
+					// Strip out spaces in filenames and upload
+					$cleaner_name = str_replace(" ",'-',Input::file('file')->getClientOriginalName());
+					$upload_success = Input::file('file')->move(storage_path().'/uploads/assets/asset-'.$assetid, $cleaner_name);
+
+					if( $upload_success) {
+
+						$uploadfile = new FileUpload();
+						$uploadfile->asset_id = $assetid;
+						$uploadfile->filename = $cleaner_name;
+						$uploadfile->created_at = date("Y-m-d H:i:s");
+						$uploadfile->user_id = Sentry::getUser()->id;
+						$uploadfile->filenotes = e(Input::get('note'));
+						$uploadfile->save();
+
+						$logaction = new Actionlog();
+						$logaction->asset_id = $assetid;
+						$logaction->asset_type = 'file';
+						$logaction->user_id = Sentry::getUser()->id;
+						$logaction->note = $cleaner_name;
+						$log = $logaction->logaction('uploaded');
+
+
+					}
+
+            }
+
+
                 // Redirect to the asset listing page
-                return Redirect::to("hardware")->with('success', Lang::get('admin/hardware/message.create.success'));
+                return Redirect::to("hardware/$assetid/view")->with('success', Lang::get('admin/hardware/message.create.success'));
             }
         } else {
             // failure
@@ -533,6 +572,7 @@ class AssetsController extends AdminController
         if (isset($asset->id)) {
 
             $settings = Setting::getSettings();
+            $files = $asset->assetfiles();
 
             $qr_code = (object) array(
                 'display' => $settings->qr_code == '1',

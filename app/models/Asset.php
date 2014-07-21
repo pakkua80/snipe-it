@@ -5,13 +5,14 @@ class Asset extends Elegant
     protected $table = 'assets';
     protected $softDelete = true;
     protected $rules = array(
-        'name'   => 'alpha_space',
-        'asset_tag'   => 'required|alpha_space|min:3|unique:assets',
-        'model_id'   => 'required',
-        'serial'   => 'alpha_dash|min:3|unique:assets',
+        'name'   			=> 'alpha_space',
+        'asset_tag'   		=> 'required|alpha_space|min:3|unique:assets',
+        'model_id'   		=> 'required',
+        'serial'   			=> 'alpha_dash|min:3|unique:assets',
         'warranty_months'   => 'integer',
-        'note'   => 'alpha_space',
-        'notes'   => 'alpha_space',
+        'note'   			=> 'alpha_space',
+        'notes'   			=> 'alpha_space',
+        'file'				=> 'mimes:doc,docx,jpeg,jpg,gif,png,pdf,xls,tiff',
     );
 
 
@@ -66,7 +67,7 @@ class Asset extends Elegant
     */
     public function assetlog()
     {
-        return $this->hasMany('Actionlog','asset_id')->where('asset_type','=','hardware')->orderBy('added_on', 'desc')->withTrashed();
+        return $this->hasMany('Actionlog','asset_id')->orderBy('added_on', 'desc')->withTrashed();
     }
 
     /**
@@ -167,6 +168,11 @@ class Asset extends Elegant
     public function supplier()
     {
         return $this->belongsTo('Supplier','supplier_id');
+    }
+
+    public function assetfiles()
+    {
+    		return $this->hasMany('FileUpload', 'asset_id');
     }
 
     public function months_until_eol()

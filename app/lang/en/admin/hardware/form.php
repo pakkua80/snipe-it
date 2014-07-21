@@ -14,6 +14,7 @@ return array(
     'expires'			=> 'Expires',
     'fully_depreciated'	=> 'Fully Depreciated',
     'help_checkout'		=> 'If you wish to assign this asset immediately, you should select "Ready to Deploy" from the status list above, or unexpected things may happen. ',
+    'help_upload'		=> 'You can use this to upload purchase orders, invoices, etc.',
     'manufacturer'		=> 'Manufacturer',
     'model'				=> 'Model',
     'months'			=> 'months',
@@ -27,6 +28,7 @@ return array(
     'supplier'			=> 'Supplier',
     'tag'				=> 'Asset Tag',
     'update'			=> 'Asset Update',
+    'upload_files'		=> 'Upload Files',
     'warranty'			=> 'Warranty',
     'years'				=> 'years',
 )

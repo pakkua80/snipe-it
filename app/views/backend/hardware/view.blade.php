@@ -133,7 +133,7 @@
 
 		<!-- Licenses assets table -->
 
-        <h6>Software Assigned to {{{ $asset->name }}}</h6>
+        <h6>Software Assigned</h6>
 		<br>
 		<!-- checked out assets table -->
 		@if (count($asset->licenses) > 0)
@@ -164,13 +164,44 @@
 		</div>
 		@endif
 
-        <!-- checked out assets table -->
-
+		 <!-- Files log -->
+         <h6>@lang('general.files')</h6>
+		 @if (count($asset->assetfiles) > 0)
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th class="col-md-1"></th>
-                    <th class="col-md-3"><span class="line"></span>@lang('general.date')</th>
+
+                    <th class="col-md-3">@lang('general.date')</th>
+                    <th class="col-md-2"><span class="line"></span>@lang('general.name')</th>
+                     <th class="col-md-2"><span class="line"></span>@lang('general.admin')</th>
+                    <th class="col-md-3"><span class="line"></span>@lang('general.notes')</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+               	@for ($i = 0; $i < count($asset->assetfiles); $i++)
+                <tr>
+                	<td>{{{ $asset->assetfiles[$i]->created_at }}}</td>
+                    <td>{{{ $asset->assetfiles[$i]->filename }}}</td>
+                    <td>{{{ $asset->assetfiles[$i]->adminuser->fullName() }}}</td>
+                    <td>{{{ $asset->assetfiles[$i]->notes }}}</td>
+                </tr>
+                @endfor
+
+            </tbody>
+        	</table>
+			@endif
+
+
+
+
+        <!-- History -->
+		 <h6>@lang('general.history')</h6>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="col-md-3">@lang('general.date')</th>
                     <th class="col-md-2"><span class="line"></span>@lang('general.admin')</th>
                     <th class="col-md-2"><span class="line"></span>@lang('table.action')</th>
                     <th class="col-md-2"><span class="line"></span>@lang('general.user')</th>
@@ -181,14 +212,10 @@
             @if (count($asset->assetlog) > 0)
                 @foreach ($asset->assetlog as $log)
                 <tr>
-                    <td>
-                    @if ((isset($log->checkedout_to)) && ($log->checkedout_to == $asset->assigned_to))
-                    <i class="icon-star"></i>
-                    @endif
-                    </td>
                     <td>{{{ $log->added_on }}}</td>
                     <td>
-                        @if (isset($log->user_id)) {{{ $log->adminlog->fullName() }}}
+                        @if (isset($log->user_id))
+                        {{{ $log->adminlog->fullName() }}}
                         @endif
                     </td>
                     <td>{{ $log->action_type }}</td>
@@ -200,14 +227,14 @@
                         @endif
                     </td>
                     <td>
-                        @if ($log->note) {{{ $log->note }}}
+                        @if ($log->note)
+                        {{{ $log->note }}}
                         @endif
                     </td>
                 </tr>
                 @endforeach
                 @endif
                 <tr>
-                    <td></td>
                     <td>{{ $asset->created_at }}</td>
                     <td>
                     @if ($asset->adminuser->id) {{{ $asset->adminuser->fullName() }}}
@@ -221,6 +248,10 @@
                 </tr>
             </tbody>
         </table>
+
+
+
+
 
 
         </div>
