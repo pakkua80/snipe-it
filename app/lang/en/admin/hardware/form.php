@@ -15,6 +15,7 @@ return array(
     'fully_depreciated'	=> 'Fully Depreciated',
     'help_checkout'		=> 'If you wish to assign this asset immediately, you should select "Ready to Deploy" from the status list above, or unexpected things may happen. ',
     'help_upload'		=> 'You can use this to upload purchase orders, invoices, etc.',
+    'help_upload_new'	=> 'Once your asset is created, you will have the ability to upload additional files.',
     'manufacturer'		=> 'Manufacturer',
     'model'				=> 'Model',
     'months'			=> 'months',

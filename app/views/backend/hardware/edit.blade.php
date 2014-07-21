@@ -162,7 +162,12 @@
                  </label>
                 <div class="col-md-7">
                 	<input class="col-md-6 form-control" type="file" name="file" id="file" />
-                    <p class="help-block">@lang('admin/hardware/form.help_upload')</p>
+                    <p class="help-block">@lang('admin/hardware/form.help_upload')
+
+                     @if (!$asset->id)
+                     	@lang('admin/hardware/form.help_upload_new')
+                     @endif
+                     </p>
                     {{ $errors->first('assigned_to', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
                 </div>
             </div>
