@@ -165,8 +165,9 @@
 		@endif
 
 		 <!-- Files log -->
-         <h6>@lang('general.files')</h6>
+
 		 @if (count($asset->assetfiles) > 0)
+		<h6>@lang('general.files')</h6>
         <table class="table table-hover">
             <thead>
                 <tr>
