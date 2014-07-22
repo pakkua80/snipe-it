@@ -245,7 +245,9 @@
                     </td>
                     <td>@lang('general.created_asset')</td>
                     <td></td>
-                    <td></td>
+                    <td>@if ($asset->notes)
+                   	{{{ $asset->notes }}}
+	                @endif</td>
                 </tr>
             </tbody>
         </table>
