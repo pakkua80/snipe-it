@@ -151,8 +151,8 @@
                  </label>
                 <div class="col-md-7">
                     {{ Form::select('assigned_to', $assigned_to , Input::old('assigned_to', $asset->assigned_to), array('class'=>'select2', 'style'=>'min-width:350px')) }}
-                    <p class="help-block">@lang('admin/hardware/form.help_checkout')</p>
                     {{ $errors->first('assigned_to', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
+                    <p class="help-block">@lang('admin/hardware/form.help_checkout')</p>
                 </div>
             </div>
 
@@ -162,13 +162,9 @@
                  </label>
                 <div class="col-md-7">
                 	<input class="col-md-6 form-control" type="file" name="file" id="file" />
-                    <p class="help-block">@lang('admin/hardware/form.help_upload')
+                	{{ $errors->first('file', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
+                    <p class="help-block">@lang('admin/hardware/form.help_upload') </p>
 
-                     @if (!$asset->id)
-                     	@lang('admin/hardware/form.help_upload_new')
-                     @endif
-                     </p>
-                    {{ $errors->first('assigned_to', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
                 </div>
             </div>
 			@endif
