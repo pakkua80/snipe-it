@@ -27,6 +27,13 @@ Route::group(array('prefix' => 'hardware'), function () {
     Route::get('{assetId}/view', array('as' => 'view/hardware', 'uses' => 'Controllers\Admin\AssetsController@getView'));
     Route::get('{assetId}/qr_code', array('as' => 'qr_code/hardware', 'uses' => 'Controllers\Admin\AssetsController@getQrCode'));
 
+	# Files
+	Route::group(array('prefix' => 'files'), function () {
+		Route::get('{assetId}/upload', array('as' => 'upload/file', 'uses' => 'Controllers\Admin\FilesController@getUpload'));
+		Route::get('{assetId}/delete/{fileId}', array('as' => 'delete/file', 'uses' => 'Controllers\Admin\FilesController@getDelete'));
+		Route::post('create', 'Controllers\Admin\FilesController@postCreate');
+	});
+
 
 # Asset Model Management
     Route::group(array('prefix' => 'models'), function () {
