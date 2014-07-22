@@ -12,7 +12,7 @@ class Asset extends Elegant
         'warranty_months'   => 'integer',
         'note'   			=> 'alpha_space',
         'notes'   			=> 'alpha_space',
-        'file'				=> 'mimes:doc,docx,jpeg,jpg,gif,png,pdf,xls,tiff',
+        'file'				=> 'mimes:doc,docx,jpeg,jpg,gif,png,pdf,xls,tiff,xls,xlsx',
     );
 
 
