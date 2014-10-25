@@ -17,6 +17,7 @@ class Asset extends Elegant
         'asset_tag'   => 'required|alpha_space|min:3|max:255|unique:assets,asset_tag,{id}',
         'serial'   => 'required|alpha_dash|min:3|max:255|unique:assets,serial,{id}',
         'status' => 'integer'
+        'file'				=> 'mimes:doc,docx,jpeg,jpg,gif,png,pdf,xls,tiff,xls,xlsx',
         );
 
     /**

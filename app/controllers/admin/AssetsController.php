@@ -172,6 +172,8 @@ class AssetsController extends AdminController
     {
         // create a new model instance
         $asset = new Asset();
+        
+        $file = Input::file('file');
 
         //attempt to validate
         $validator = Validator::make(Input::all(), $asset->validationRules());
