@@ -7,7 +7,7 @@ This is a FOSS project for asset management in IT Operations. Knowing who has wh
 
 It is built on [Laravel 4.1](http://laravel.com) and uses the [Sentry 2](https://github.com/cartalyst/sentry) package.
 
-This project is being actively developed (at what seems like breakneck speed sometimes!) We're still in alpha release, so this is NOT recommended for production use yet, as many more things will likely change before v1.0-stable is ready - but we're [releasing quite frequently](https://github.com/snipe/snipe-it/releases). ([Check out the live demo here](http://snipeitapp.com/demo.php).)
+This project is being actively developed and we're [releasing quite frequently](https://github.com/snipe/snipe-it/releases). ([Check out the live demo here](http://snipeitapp.com/demo.php).)
 
 __This is web-based software__. This means there there is no executable file (aka no .exe files), and it must be run on a web server and accessed through a web browser. It runs on any Mac OSX, flavor of Linux, as well as Windows.
 
@@ -16,9 +16,9 @@ __This is web-based software__. This means there there is no executable file (ak
 
 __Installation and configuration documentation for this project has been moved to http://docs.snipeitapp.com.__ This provides a more easily navigated, organized view of the documentation, and is based off of the [documentation branch](https://github.com/snipe/snipe-it/tree/documentation) in this repo. Contributions and bugfixes to the documentation are always welcome!
 
-[![Build Status](https://www.gitbook.io/button/status/book/snipe/snipe-it-manual)](https://www.gitbook.io/book/snipe/snipe-it-manual/activity)
-
 We'll be adding a long-overdue user's manual soon as well.
+
+__To deploy on Ubuntu using Ansible and Vagrant, be sure to check out the [Snipe-IT Installation scripts](https://github.com/GR360RY/snipeit-ansible) created by [@GR360RY](https://github.com/GR360RY/).__
 
 -----
 ### Bug Reports & Feature Requests
@@ -33,6 +33,11 @@ We use Waffle.io to help better communicate our roadmap with users. Our [project
 ### Announcement List
 
 To be notified of important news (such as new releases, security advisories, etc), [sign up for our list](http://eepurl.com/XyZKz). We'll never sell or give away your info, and we'll only email you when it's important.
+
+
+### Translations!
+
+If you're not a coder but want to give back to the project and you're fluent in other languages, consider helping out with the translations. We use [CrowdIn](https://crowdin.com) to manage translations, and it makes it super-simple for you to add translations to the project without messing with code. Check out [the Snipe-IT CrowdIn translation project here](https://crowdin.com/project/snipe-it/).
 
 -----
 ## Requirements

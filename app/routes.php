@@ -11,11 +11,28 @@
 
 Route::group(array('prefix' => 'hardware'), function () {
 
-    Route::get('/', array('as' => '', 'uses' => 'Controllers\Admin\AssetsController@getIndex'));
-    Route::get('/', array('as' => 'hardware', 'uses' => 'Controllers\Admin\AssetsController@getIndex'));
-    Route::get('create', array('as' => 'create/hardware', 'uses' => 'Controllers\Admin\AssetsController@getCreate'));
-    Route::post('create', 'Controllers\Admin\AssetsController@postCreate');
-    Route::get('{assetId}/edit', array('as' => 'update/hardware', 'uses' => 'Controllers\Admin\AssetsController@getEdit'));
+
+
+    Route::get('/', array(
+    	'as' => 'hardware',
+    	'uses' => 'Controllers\Admin\AssetsController@getIndex')
+    );
+
+    Route::get('create', array(
+    	'as' => 'create/hardware',
+    	'uses' => 'Controllers\Admin\AssetsController@getCreate')
+    );
+
+    Route::post('create', array(
+    	'as' => 'savenew/hardware',
+    	'uses' => 'Controllers\Admin\AssetsController@postCreate')
+    );
+
+    Route::get('{assetId}/edit', array(
+    	'as' => 'update/hardware',
+    	'uses' => 'Controllers\Admin\AssetsController@getEdit')
+    );
+
     Route::post('{assetId}/edit', 'Controllers\Admin\AssetsController@postEdit');
     Route::get('{assetId}/clone', array('as' => 'clone/hardware', 'uses' => 'Controllers\Admin\AssetsController@getClone'));
     Route::post('{assetId}/clone', 'Controllers\Admin\AssetsController@postCreate');
@@ -34,6 +51,8 @@ Route::group(array('prefix' => 'hardware'), function () {
         Route::post('create', 'Controllers\Admin\ModelsController@postCreate');
         Route::get('{modelId}/edit', array('as' => 'update/model', 'uses' => 'Controllers\Admin\ModelsController@getEdit'));
         Route::post('{modelId}/edit', 'Controllers\Admin\ModelsController@postEdit');
+        Route::get('{modelId}/clone', array('as' => 'clone/model', 'uses' => 'Controllers\Admin\ModelsController@getClone'));
+        Route::post('{modelId}/clone', 'Controllers\Admin\ModelsController@postCreate');
         Route::get('{modelId}/delete', array('as' => 'delete/model', 'uses' => 'Controllers\Admin\ModelsController@getDelete'));
         Route::get('{modelId}/view', array('as' => 'view/model', 'uses' => 'Controllers\Admin\ModelsController@getView'));
     });
@@ -70,6 +89,8 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::post('create', 'Controllers\Admin\LicensesController@postCreate');
         Route::get('{licenseId}/edit', array('as' => 'update/license', 'uses' => 'Controllers\Admin\LicensesController@getEdit'));
         Route::post('{licenseId}/edit', 'Controllers\Admin\LicensesController@postEdit');
+        Route::get('{licenseId}/clone', array('as' => 'clone/license', 'uses' => 'Controllers\Admin\LicensesController@getClone'));
+        Route::post('{licenseId}/clone', 'Controllers\Admin\LicensesController@postCreate');
         Route::get('{licenseId}/delete', array('as' => 'delete/license', 'uses' => 'Controllers\Admin\LicensesController@getDelete'));
         Route::get('{licenseId}/checkout', array('as' => 'checkout/license', 'uses' => 'Controllers\Admin\LicensesController@getCheckout'));
         Route::post('{licenseId}/checkout', 'Controllers\Admin\LicensesController@postCheckout');
@@ -162,6 +183,8 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::post('create', 'Controllers\Admin\UsersController@postCreate');
         Route::get('{userId}/edit', array('as' => 'update/user', 'uses' => 'Controllers\Admin\UsersController@getEdit'));
         Route::post('{userId}/edit', 'Controllers\Admin\UsersController@postEdit');
+        Route::get('{userId}/clone', array('as' => 'clone/user', 'uses' => 'Controllers\Admin\UsersController@getClone'));
+        Route::post('{userId}/clone', 'Controllers\Admin\UsersController@postCreate');
         Route::get('{userId}/delete', array('as' => 'delete/user', 'uses' => 'Controllers\Admin\UsersController@getDelete'));
         Route::get('{userId}/restore', array('as' => 'restore/user', 'uses' => 'Controllers\Admin\UsersController@getRestore'));
         Route::get('{userId}/view', array('as' => 'view/user', 'uses' => 'Controllers\Admin\UsersController@getView'));
@@ -272,3 +295,4 @@ Route::get('/', function () {
 Route::get('/', array('as' => 'home', 'uses' => 'Controllers\Admin\AssetsController@getIndex'));
 Route::get('reports', array('as' => 'reports', 'uses' => 'Controllers\Admin\AssetsController@getReports'));
 Route::get('reports/export', array('as' => 'reports/export', 'uses' => 'Controllers\Admin\AssetsController@exportReports'));
+

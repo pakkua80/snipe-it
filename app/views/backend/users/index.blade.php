@@ -33,6 +33,7 @@
 
 @if ($users->getTotal() > 0)
 <div class="row-fluid table users-list">
+<div class="table-responsive">
 <table id="example">
     <thead>
         <tr role="row">
@@ -65,10 +66,12 @@
             <td>{{ $user->isActivated() ? '<i class="icon-ok"></i>' : ''}}</td>
             <td>
 
-
-				@if ($user->accountStatus()=='suspended')
-                      <a href="{{ route('unsuspend/user', $user->id) }}" class="btn btn-warning"><span class="icon-time icon-white"></span></a>
-				@endif
+            <!-- If the user account is suspended - show the UNSUSPEND button.  Do NOT evaluate if soft deleted! -->
+            @if (is_null($user->deleted_at))
+		@if ($user->accountStatus()=='suspended')
+                <a href="{{ route('unsuspend/user', $user->id) }}" class="btn btn-warning"><span class="icon-time icon-white"></span></a>
+		@endif
+            @endif
 			</td>
             <td>
 
@@ -84,15 +87,13 @@
                 <span class="btn delete-asset btn-danger disabled"><i class="icon-trash icon-white"></i></span>
                 @endif
                 @endif
-
-
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
 </div>
-
+</div>
 <!-- {{
     Datatable::table()
         ->addColumn(Lang::get('name'))

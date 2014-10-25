@@ -1,5 +1,14 @@
 @extends('backend/layouts/default')
 
+<?php
+use DebugBar\StandardDebugBar;
+
+$debugbar = new StandardDebugBar();
+$debugbarRenderer = $debugbar->getJavascriptRenderer();
+
+$debugbar["messages"]->addMessage("hello world!");
+?>
+
 @section('title0')
     @if (Input::get('Pending') || Input::get('Undeployable') || Input::get('RTD')  || Input::get('Deployed'))
         @if (Input::get('Pending'))
@@ -38,21 +47,22 @@
 
 @if ($assets->count() > 0)
 
-
+<div class="table-responsive">
 <table id="example">
     <thead>
         <tr role="row">
             <th class="col-md-1" bSortable="true">@lang('admin/hardware/table.asset_tag')</th>
-            <th class="col-md-3" bSortable="true">@lang('admin/hardware/table.title')</th>
+            <th class="col-md-3" bSortable="true">@lang('admin/hardware/table.asset_model')</th>
             @if (Setting::getSettings()->display_asset_name)
             <th class="col-md-3" bSortable="true">@lang('general.name')</th>
             @endif
             <th class="col-md-2" bSortable="true">@lang('admin/hardware/table.serial')</th>
-            @if (Input::get('Pending') || Input::get('Undeployable') || Input::get('RTD'))
+
             <th class="col-md-2" bSortable="true">@lang('general.status')</th>
-            @else
-            <th class="col-md-2" bSortable="true">@lang('admin/hardware/table.checkoutto')</th>
+
             <th class="col-md-2" bSortable="true">@lang('admin/hardware/table.location')</th>
+            @if (Input::get('Deployed') && Setting::getSettings()->display_checkout_date)
+            <th class="col-md-2" bSortable="true">@lang('admin/hardware/table.checkout_date')</th>
             @endif
             <th class="col-md-2">@lang('admin/hardware/table.eol')</th>
             <th class="col-md-1">@lang('admin/hardware/table.change')</th>
@@ -63,43 +73,59 @@
 
         @foreach ($assets as $asset)
         <tr>
-            <td><a href="{{ route('view/hardware', $asset->id) }}">{{ $asset->asset_tag }}</a></td>
-            <td><a href="{{ route('view/hardware', $asset->id) }}">{{ $asset->model->name }}</a></td>
+            <td><a href="{{ route('view/hardware', $asset->id) }}">{{{ $asset->asset_tag }}}</a></td>
+            <td><a href="{{ route('view/model', $asset->model->id) }}">{{{ $asset->model->name }}}</a></td>
+
             @if (Setting::getSettings()->display_asset_name)
-                <td><a href="{{ route('view/hardware', $asset->id) }}">{{ $asset->name }}</a></td>
+                <td><a href="{{ route('view/hardware', $asset->id) }}">{{{ $asset->name }}}</a></td>
             @endif
-            <td>{{ $asset->serial }}</td>
-            @if (Input::get('Pending') || Input::get('Undeployable') || Input::get('RTD'))
+
+            <td>{{{ $asset->serial }}}</td>
+
+
                 <td>
                     @if (Input::get('Pending'))
                         @lang('general.pending')
                     @elseif (Input::get('RTD'))
                         @lang('general.ready_to_deploy')
                     @elseif (Input::get('Undeployable'))
-                        @if ($asset->assetstatus) {{{ $asset->assetstatus->name }}}
+                        @if ($asset->assetstatus)
+                        	{{{ $asset->assetstatus->name }}}
                         @endif
+                    @else
+                    	@if ($asset->assigneduser)
+							<a href="{{ route('view/user', $asset->assigned_to) }}">
+							{{{ $asset->assigneduser->fullName() }}}
+							</a>
+						@else
+							@if ($asset->assetstatus)
+                        	{{{ $asset->assetstatus->name }}}
+                        	@endif
+						@endif
                     @endif
-                </td>
-            @else
-                <td>
-                @if ($asset->assigneduser)
-                    <a href="{{ route('view/user', $asset->assigned_to) }}">
-                    {{{ $asset->assigneduser->fullName() }}}
-                    </a>
-                @endif
-                </td>
-                <td>
-                @if ($asset->assigneduser && $asset->assetloc) {{{ $asset->assetloc->name }}}
-                @else
-                    @if ($asset->assetstatus) {{{ $asset->assetstatus->name }}}
-                    @endif
-                @endif
                 </td>
 
-            @endif
+
 
             <td>
-            @if ($asset->model->eol) {{{ $asset->eol_date() }}}
+                @if ($asset->assigneduser && $asset->assetloc)
+                    	<a href="{{ route('update/location', $asset->assetloc->id) }}">{{{ $asset->assetloc->name }}}</a>
+                @elseif ($asset->defaultLoc)
+                    	<a href="{{ route('update/location', $asset->defaultLoc->id) }}">{{{ $asset->defaultLoc->name }}}</a>
+
+                @endif
+
+            </td>
+		@if (Input::get('Deployed') && Setting::getSettings()->display_checkout_date)
+	            <td>
+	                @if (count($asset->assetlog) > 0)
+                        {{{ $asset->assetlog->first()->added_on }}}
+	                @endif
+	            </td>
+            	@endif
+            <td>
+            @if ($asset->model->eol)
+            	{{{ $asset->eol_date() }}}
             @endif
             </td>
 
@@ -122,6 +148,7 @@
         @endforeach
     </tbody>
 </table>
+</div>
 @else
 <div class="col-md-9">
     <div class="alert alert-info alert-block">
@@ -131,6 +158,7 @@
 </div>
 
 </div>
+
 @endif
 
 

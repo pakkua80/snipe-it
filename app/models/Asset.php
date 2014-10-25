@@ -4,17 +4,20 @@ class Asset extends Elegant
 {
     protected $table = 'assets';
     protected $softDelete = true;
-    protected $rules = array(
-        'name'   			=> 'alpha_space',
-        'asset_tag'   		=> 'required|alpha_space|min:3|unique:assets',
-        'model_id'   		=> 'required',
-        'serial'   			=> 'alpha_dash|min:3|unique:assets',
-        'warranty_months'   => 'integer',
-        'note'   			=> 'alpha_space',
-        'notes'   			=> 'alpha_space',
-        'file'				=> 'mimes:doc,docx,jpeg,jpg,gif,png,pdf,xls,tiff,xls,xlsx',
-    );
 
+    protected $errors;
+    protected $rules = array(
+        'name'   => 'alpha_space|min:6|max:255',
+        'model_id'   => 'required',
+        'warranty_months'   => 'integer|min:0|max:240',
+        'note'   => 'alpha_space',
+        'notes'   => 'alpha_space',
+        'pysical' => 'integer',
+        'supplier_id' => 'integer',
+        'asset_tag'   => 'required|alpha_space|min:3|max:255|unique:assets,asset_tag,{id}',
+        'serial'   => 'required|alpha_dash|min:3|max:255|unique:assets,serial,{id}',
+        'status' => 'integer'
+        );
 
     /**
     * Handle depreciation
@@ -48,7 +51,6 @@ class Asset extends Elegant
 
     }
 
-
     public function assigneduser()
     {
         return $this->belongsTo('User', 'assigned_to');
@@ -61,6 +63,16 @@ class Asset extends Elegant
     {
         return $this->assigneduser->userloc();
     }
+
+
+    /**
+    * Get the asset's location based on the assigned user
+    **/
+    public function defaultLoc()
+    {
+        return $this->hasOne('Location', 'id', 'rtd_location_id');
+    }
+
 
     /**
     * Get action logs for this asset
@@ -196,6 +208,4 @@ class Asset extends Elegant
             date_add($date, date_interval_create_from_date_string($this->model->eol.' months'));
             return date_format($date, 'Y-m-d');
     }
-
-
 }

@@ -31,7 +31,12 @@
             <!-- left column -->
             <div class="col-md-12 column">
 
-            <form class="form-horizontal" method="post" action="" autocomplete="off" role="form" enctype="multipart/form-data">
+			 @if ($asset->id)
+				 <form class="form-horizontal" method="post" action="{{ route('update/hardware',$asset->id) }}" autocomplete="off" role="form">
+			 @else
+				 <form class="form-horizontal" method="post" action="{{ route('savenew/hardware') }}" autocomplete="off" role="form">
+			 @endif
+
             <!-- CSRF Token -->
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
@@ -56,7 +61,7 @@
             </div>
             <!-- Serial -->
             <div class="form-group {{ $errors->has('serial') ? ' has-error' : '' }}">
-                <label for="serial" class="col-md-2 control-label">@lang('admin/hardware/form.serial')</label>
+                <label for="serial" class="col-md-2 control-label">@lang('admin/hardware/form.serial') <i class='icon-asterisk'></i></label>
                 <div class="col-md-7">
                     <input class="form-control" type="text" name="serial" id="serial" value="{{{ Input::old('serial', $asset->serial) }}}" />
                     {{ $errors->first('serial', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
@@ -105,14 +110,14 @@
 
             <!-- Purchase Cost -->
             <div class="form-group {{ $errors->has('purchase_cost') ? ' has-error' : '' }}">
-                <label for="purchase_cost" class="col-md-2 control-label">@lang('admin/hardware/form.cost')</label>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon">@lang('general.currency')</span>
-                        <input class="col-md-2 form-control" type="text" name="purchase_cost" id="purchase_cost" value="{{{ Input::old('purchase_cost', $asset->purchase_cost) }}}" />
-                        {{ $errors->first('purchase_cost', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
+                    <label for="purchase_cost" class="col-md-2 control-label">@lang('admin/hardware/form.cost') <i class='icon-asterisk'></i></label>
+                    <div class="col-md-2">
+                            <div class="input-group">
+                                    <span class="input-group-addon">@lang('general.currency')</span>
+                                    <input class="col-md-2 form-control" type="text" name="purchase_cost" id="purchase_cost" value="{{ Input::old('purchase_cost', number_format($asset->purchase_cost,2)) }}" />
+                                    {{ $errors->first('purchase_cost', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
+                             </div>
                      </div>
-                 </div>
             </div>
 
             <!-- Warrantee -->
@@ -128,7 +133,7 @@
 
             <!-- Status -->
             <div class="form-group {{ $errors->has('status_id') ? ' has-error' : '' }}">
-                <label for="status_id" class="col-md-2 control-label">@lang('admin/hardware/form.status')</label>
+                <label for="status_id" class="col-md-2 control-label">@lang('admin/hardware/form.status') <i class='icon-asterisk'></i></label>
                     <div class="col-md-7">
                         {{ Form::select('status_id', $statuslabel_list , Input::old('status_id', $asset->status_id), array('class'=>'select2', 'style'=>'width:350px')) }}
                         {{ $errors->first('status_id', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
@@ -143,6 +148,16 @@
                     {{ $errors->first('notes', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
                 </div>
             </div>
+
+            <!-- Default Location -->
+            <div class="form-group {{ $errors->has('status_id') ? ' has-error' : '' }}">
+                <label for="status_id" class="col-md-2 control-label">@lang('admin/hardware/form.default_location')</label>
+                    <div class="col-md-7">
+                        {{ Form::select('rtd_location_id', $location_list , Input::old('rtd_location_id', $asset->rtd_location_id), array('class'=>'select2', 'style'=>'width:350px')) }}
+                        {{ $errors->first('status_id', '<span class="alert-msg"><i class="icon-remove-sign"></i> :message</span>') }}
+                    </div>
+            </div>
+
 
 			@if (!$asset->id)
              <!-- Assigned To -->
