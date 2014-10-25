@@ -4,7 +4,6 @@ use AdminController;
 use Input;
 use Lang;
 use Asset;
-use FileUpload;
 use Supplier;
 use Statuslabel;
 use User;
@@ -22,6 +21,7 @@ use Response;
 use Config;
 use Location;
 use Log;
+use FileUpload;
 
 use BaconQrCode\Renderer\Image as QrImage;
 
