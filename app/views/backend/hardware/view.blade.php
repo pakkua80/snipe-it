@@ -130,10 +130,14 @@
 
 
     </div>
+    
+     
+     
+     
 
 		<!-- Licenses assets table -->
 
-        <h6>Software Assigned</h6>
+        <h6>@lang('admin/hardware/general.software_assigned')</h6>
 		<br>
 		<!-- checked out assets table -->
 		@if (count($asset->licenses) > 0)
@@ -166,8 +170,12 @@
 
 		 <!-- Files log -->
 
-		 @if (count($asset->assetfiles) > 0)
+		 
 		<h6>@lang('general.files')</h6>
+		 
+		 
+		 
+
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -175,7 +183,6 @@
                     <th class="col-md-3">@lang('general.date')</th>
                     <th class="col-md-2"><span class="line"></span>@lang('general.name')</th>
                      <th class="col-md-2"><span class="line"></span>@lang('general.admin')</th>
-                    <th class="col-md-3"><span class="line"></span>@lang('general.notes')</th>
                 </tr>
             </thead>
             <tbody>
@@ -186,13 +193,22 @@
                 	<td>{{{ $asset->assetfiles[$i]->created_at }}}</td>
                     <td>{{{ $asset->assetfiles[$i]->filename }}}</td>
                     <td>{{{ $asset->assetfiles[$i]->adminuser->fullName() }}}</td>
-                    <td>{{{ $asset->assetfiles[$i]->notes }}}</td>
                 </tr>
-                @endfor
+                 @endfor
+                 <tr>
+                	<td colspan="4" align="center">
+                		{{ Form::open(array('url'=>'/hardware/'.$asset->id.'/upload','files'=>true)) }}
+	                	{{ Form::file('file[]', array('multiple'=>true)) }}
+	                	{{ Form::submit('Upload', array('class'=>'btn-flat info')) }}
+	                	{{ Form::close() }}
+                	</td>
+                </tr>
+
+               
 
             </tbody>
         	</table>
-			@endif
+		
 
 
 
@@ -326,8 +342,8 @@
             @else
             <h6><br>@lang('admin/hardware/general.checkout')</h6>
                 <ul>
-                    <li>This asset is not checked out to anyone yet. Use the button below to check it out now.</li>
-                    <li><br><br /><a href="{{ route('checkout/hardware', $asset->id) }}" class="btn-flat large success">Checkout Asset</a></li>
+                    <li>@lang('admin/hardware/general.not_checked_out')</li>
+                    <li><br><br /><a href="{{ route('checkout/hardware', $asset->id) }}" class="btn-flat large success">@lang('admin/hardware/general.checkout_asset')</a></li>
                 </ul>
             @endif
         </div>

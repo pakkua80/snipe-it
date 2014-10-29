@@ -12,11 +12,9 @@
 Route::group(array('prefix' => 'hardware'), function () {
 
 
-
-    Route::get('/', array(
-    	'as' => 'hardware',
-    	'uses' => 'Controllers\Admin\AssetsController@getIndex')
-    );
+	# Files
+	Route::post('{assetId}/upload', array('as' => 'upload/file', 'uses' => 'Controllers\Admin\FilesController@postUpload'));
+	Route::get('{assetId}/delete/{fileId}', array('as' => 'delete/file', 'uses' => 'Controllers\Admin\FilesController@getDelete'));
 
     Route::get('create', array(
     	'as' => 'create/hardware',
@@ -56,14 +54,13 @@ Route::group(array('prefix' => 'hardware'), function () {
         Route::get('{modelId}/delete', array('as' => 'delete/model', 'uses' => 'Controllers\Admin\ModelsController@getDelete'));
         Route::get('{modelId}/view', array('as' => 'view/model', 'uses' => 'Controllers\Admin\ModelsController@getView'));
     });
+    
+    Route::get('/', array(
+    	'as' => 'hardware',
+    	'uses' => 'Controllers\Admin\AssetsController@getIndex')
+    );
 
-
-# Files
-	Route::group(array('prefix' => 'files'), function () {
-		Route::get('{assetId}/upload', array('as' => 'upload/file', 'uses' => 'Controllers\Admin\FilesController@getUpload'));
-		Route::get('{assetId}/delete/{fileId}', array('as' => 'delete/file', 'uses' => 'Controllers\Admin\FilesController@getDelete'));
-		Route::post('create', 'Controllers\Admin\FilesController@postCreate');
-	});
+	
 
 
 });

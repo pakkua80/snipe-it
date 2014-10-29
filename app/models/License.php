@@ -178,6 +178,13 @@ class License extends Elegant
         }
 
     }
+    
+    
+    
+    public function licensefiles()
+    {
+    	return $this->hasMany('FileUpload', 'asset_id');
+    }
 
 
 }
