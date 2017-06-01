@@ -120,7 +120,7 @@ elif [ -f /etc/os-release ]; then
 	#If only /etc/centos-release exist, we're on centos6(or earlier).  Centos-release is less parsable,
 	#so lets assume that it's version 6 (Plus, who would be doing a new install of anything on centos5 at this point..)
 elif [ -f /etc/centos-release ]; then
-	distro="Centos"
+	distro="centos"
 	version="6"
 else
 	distro="unsupported"
@@ -150,7 +150,7 @@ case $distro in
                 echo "  The installer has detected Debian version $version as the OS."
                 distro=debian
                 ;;
-        *centos*|*redhat*)
+        *centos*|*redhat*|*ol*)
                 echo "  The installer has detected $distro version $version as the OS."
                 distro=centos
                 ;;
